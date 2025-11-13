@@ -1,0 +1,13 @@
+{
+  "name": "爱弹幕发布页",
+  "short_name": "爱弹幕发布页",
+  "start_url": ".",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
