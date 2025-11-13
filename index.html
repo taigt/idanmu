@@ -9,6 +9,7 @@
 	<link rel="icon" href="https://taigt.github.io/idanmu/favicon.ico" />
 	<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@7.0.1/css/fontawesome.min.css">
+	<link rel="manifest" href="/manifest.json">
 	<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
 	<style>a{text-decoration:none}</style>
 	<script defer src="https://um.268888.xyz/script.js" data-website-id="5ac3fea1-2ac5-454f-90f3-866a2b5f09c5"></script>
@@ -34,6 +35,7 @@
 						<div class="mdui-typo-body-1">发布页②：<span class="mdui-text-color-blue">https://taigt.github.io/idanmu</span></div>
 					</div>
 					<div class="mdui-card-content">最新域名都将在此更新，防迷路。请记住以上域名！永久有效！建议收藏！<br />
+						<button class="mdui-btn mdui-color-orange-900 mdui-btn-block mdui-m-t-1" id="installBtn" style="display:none">安装发布页应用</button>
 						<span class="mdui-btn mdui-color-blue-600 mdui-btn-block mdui-m-t-1">按 Ctrl + D 收藏</span>
 					</div>
 				</div>
@@ -138,12 +140,30 @@
 
 	</div>
 </div>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker 注册成功'))
+      .catch(err => console.error('注册失败:', err));
+  }
 
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'inline-block';
+  });
+
+  installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        installBtn.style.display = 'none';
+      });
+    }
+  });
+</script>
 </body>
 </html>
-
-
-
-
-
-
