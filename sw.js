@@ -11,10 +11,15 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // 🚫 非 GET 請求不處理，直接交給瀏覽器
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // 可选：更新缓存
+        // ✅ 只快取 GET 請求的回應
         const responseClone = response.clone();
         caches.open(CACHE_NAME).then(cache => {
           cache.put(event.request, responseClone);
